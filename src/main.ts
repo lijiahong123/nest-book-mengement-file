@@ -6,10 +6,11 @@ import { join } from 'path';
 async function bootstrap() {
   const app = await NestFactory.create<NestApplication>(AppModule);
 
+  app.enableCors();
   app.useGlobalPipes(new ValidationPipe({ transform: true }));
 
   app.useStaticAssets(join(__dirname, '../upload'), { prefix: '/upload' });
 
-  await app.listen(3000);
+  await app.listen(3001);
 }
 bootstrap();
