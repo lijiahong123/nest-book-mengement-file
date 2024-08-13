@@ -9,7 +9,7 @@ async function bootstrap() {
   app.enableCors();
   app.useGlobalPipes(new ValidationPipe({ transform: true }));
 
-  app.useStaticAssets(join(__dirname, '../upload'), { prefix: '/upload' });
+  app.useStaticAssets(join(process.cwd(), 'upload'), { prefix: '/upload' });
 
   await app.listen(3001);
 }

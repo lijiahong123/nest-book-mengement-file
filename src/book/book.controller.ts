@@ -1,5 +1,6 @@
 import {
   BadRequestException,
+  Query,
   Body,
   Controller,
   Get,
@@ -21,15 +22,15 @@ export class BookController {
   constructor(private readonly bookService: BookService) {}
 
   @Get('list')
-  list() {
-    return this.bookService.queryPage();
+  list(@Query('name') name?: string) {
+    return this.bookService.queryPage(name);
   }
   @Get(':id')
   queryOne(@Param('id', ParseIntPipe) id: number) {
     return this.bookService.findOne(id);
   }
 
-  @Post('add')
+  @Post('create')
   create(@Body() createBookDto: CreateBookDto) {
     return this.bookService.createBook(createBookDto);
   }
@@ -44,7 +45,7 @@ export class BookController {
     return this.bookService.deleteId(id);
   }
 
-  @Post('uoloadFile')
+  @Post('uploadFile')
   @UseInterceptors(
     FileInterceptor('file', {
       dest: 'upload',
@@ -65,8 +66,6 @@ export class BookController {
     }),
   )
   upload(@UploadedFile() file: Express.Multer.File) {
-    console.log('file', file);
-
-    return '/' + file.path.replace('\\', '/');
+    return file.path.split(process.cwd())[1].replace(/\\/g, '/');
   }
 }

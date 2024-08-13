@@ -7,7 +7,7 @@ export class DBService {
   @Inject('OPTIONS')
   private options: DBModuleOptions;
 
-  async read() {
+  async read<T>(): Promise<T[]> {
     const filepath = this.options.path;
 
     try {

@@ -9,9 +9,9 @@ export class BookService {
   @Inject(DBService)
   dbService: DBService;
 
-  async queryPage() {
-    const books = await this.dbService.read();
-    return books;
+  async queryPage(name?: string): Promise<Book[]> {
+    const books = await this.dbService.read<Book>();
+    return name ? books.filter((i) => i.name.includes(name)) : books;
   }
 
   async findOne(id: number) {
